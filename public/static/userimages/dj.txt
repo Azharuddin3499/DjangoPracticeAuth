@@ -1,0 +1,57 @@
+Django Topics
+MVT
+DTL
+GET VS POST
+ORM
+
+ORM(Object Relational mapper)
+ORM is a concept where you can directly create db tables with the help of classes you create and you can add the data
+in the tables with the help of objects you create.
+we want to objects and the tables(relations).
+migration is creating table in database with the help of models.
+
+
+
+Models:
+Works with DB
+Use to make dynamic website
+use to provide options for admin to make a website dynamic.
+
+commands for models: 
+	python manage.py startapp modelname
+will make a folder name modelname which will contain files like models.py and admin.py
+
+after define fields in models use this command this will make migration file in admin.py
+	python manage.py makemigrations
+afte make migrations this command will make table in db autometically
+	python manage.py migrate
+	
+
+
+Steps to create Models:
+
+	python manage.py startapp modelname
+now create fields in models.py file in your app
+after create models register your app in settings.py then migrate it
+	python manage.py makemigrations
+after that your migrations file will created in migration folder file name is 0001_initial.py
+	python manage.py migrate
+after this your table will be created.
+
+
+
+How to get service option in admin?
+Go to your app and find admin.py and import your app model class	
+	from services.models import Services
+make class for admin to register model in admin
+
+	class ServicesAdmin(admin.ModelAdmin):
+    		list_display=('icon','title','description')
+
+	admin.site.register(Services,ServicesAdmin)
+	
+
+
+================================================
+create super user(admin)
+python manage.py createsuperuser

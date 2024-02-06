@@ -1,0 +1,77 @@
+Annotation and aggregation
+
+Aggregation:
+Function which works or perform calculation on a single column
+aggregation.example sum,avg,min,max etc.
+
+Annotation:
+Function which works or execute calculation on multipe column or tables
+is annotate.with the help of annotate we can use multipe aggrete Functions.
+
+==========================
+
+
+
+D:\study\Django\practiceA>python manage.py shell
+Python 3.12.1 (tags/v3.12.1:2305ca5, Dec  7 2023, 22:03:25) [MSC v.1937 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.db.models import *
+>>> from Recipes.models import *
+>>> Student.objects.aggregate(Avg('student_age'))
+{'student_age__avg': 23.967105263157894}
+>>>
+>>>
+>>> Student.objects.aggregate(Max('student_age'))
+{'student_age__max': 30}
+>>>
+>>>
+>>> Student.objects.aggregate(Min('student_age'))
+{'student_age__min': 18}
+>>>
+>>>
+>>> Student.objects.aggregate(Sum('student_age'))
+{'student_age__sum': 3643}
+>>>
+>>>
+>>> studnet=Student.objects.values('student_age').annotate(Count('student_age'))
+>>> student
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'student' is not defined. Did you mean: 'Student'?
+>>> studnet
+<QuerySet [{'student_age': 18, 'student_age__count': 12}, {'student_age': 19, 'student_age__count': 13}, {'student_age': 20, 'student_age__count': 16}, {'student_age': 21, 'student_age__count': 7}, {'student_age': 22, 'student_age__count': 10}, {'student_age': 23, 'student_age__count': 10}, {'student_age': 24, 'student_age__count': 13}, {'student_age': 25, 'student_age__count': 13}, {'student_age': 26, 'student_age__count': 10}, {'student_age': 27, 'student_age__count': 11}, {'student_age': 28, 'student_age__count': 14}, {'student_age': 29, 'student_age__count': 13}, {'student_age': 30, 'student_age__count': 10}]>
+>>>
+>>>
+>>>
+>>> studnet=Student.objects.values('department').annotate(Count('department'))
+>>> studnet
+<QuerySet [{'department': 1, 'department__count': 27}, {'department': 2, 'department__count': 28}, {'department': 3, 'department__count': 28}, {'department': 4, 'department__count': 38}, {'department': 5, 'department__count': 31}]>
+>>>
+>>>
+>>>
+>>>
+>>> studnet=Student.objects.annotate(Count('department'),Count('student_age'))
+>>> studnet
+<QuerySet [<Student: Mike Tyson>, <Student: John Woods>, <Student: Claudia Page>, <Student: Lydia Carter>, <Student: Mary Pratt>, <Student: Juan Austin>, <Student: Kevin Mooney>, <Student: Stephanie King>, <Student: Holly Dillon>, <Student: Zachary Fry>, <Student: Lisa Hernandez>, <Student: Rodney Brown>, <Student: Jordan Woods>, <Student: Elizabeth Smith>, <Student: Cheryl Brown>, <Student: Jeffrey Williams>, <Student: Jason Moses>, <Student: Nicholas Downs>, <Student: Lori Martinez>, <Student: Isaiah Martinez>, '...(remaining elements truncated)...']>
+>>>
+>>>
+>>>
+>>> studnet=Student.objects.values('department','student_age').annotate(Count('department'),Count('student_age'))
+>>> studnet
+<QuerySet [{'department': 1, 'student_age': 19, 'department__count': 1, 'student_age__count': 1}, {'department': 1, 'student_age': 20, 'department__count': 4, 'student_age__count': 4}, {'department': 1, 'student_age': 21, 'department__count': 3, 'student_age__count': 3}, {'department': 1, 'student_age': 22, 'department__count': 1, 'student_age__count': 1}, {'department': 1, 'student_age': 23, 'department__count': 4, 'student_age__count': 4}, {'department': 1, 'student_age': 24, 'department__count': 2, 'student_age__count': 2}, {'department': 1, 'student_age': 25, 'department__count': 1, 'student_age__count': 1}, {'department': 1, 'student_age': 26, 'department__count': 1, 'student_age__count': 1}, {'department': 1, 'student_age': 27, 'department__count': 3, 'student_age__count': 3}, {'department': 1, 'student_age': 28, 'department__count': 1, 'student_age__count': 1}, {'department': 1, 'student_age': 29, 'department__count': 3, 'student_age__count': 3}, {'department': 1, 'student_age': 30, 'department__count': 3, 'student_age__count': 3}, {'department': 2, 'student_age': 18, 'department__count': 1, 'student_age__count': 1}, {'department': 2, 'student_age': 20, 'department__count': 3, 'student_age__count': 3}, {'department': 2, 'student_age': 21, 'department__count': 2, 'student_age__count': 2}, {'department': 2, 'student_age': 22, 'department__count': 1, 'student_age__count': 1}, {'department': 2, 'student_age': 23, 'department__count': 3, 'student_age__count': 3}, {'department': 2, 'student_age': 24, 'department__count': 4, 'student_age__count': 4}, {'department': 2, 'student_age': 25, 'department__count': 3, 'student_age__count': 3}, {'department': 2, 'student_age': 26, 'department__count': 1, 'student_age__count': 1}, '...(remaining elements truncated)...']>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>> studnet=Student.objects.values('department','student_age').annotate(Count('department'),Count('student_age')).values_list()
+>>> studnet
+<QuerySet [(1, 2, 1, 'Mike Tyson', 'Mike@gmail.com', 25, 'Tower Karachi', 1, 1), (2, 1, 2, 'John Woods', 'jonesashley@example.org', 30, '12490 Gabriella Divide Suite 593\nWest Michaelland, NE 50293', 1, 1), (3, 5, 3, 'Claudia Page', 'brian07@example.org', 19, '7219 Myers Loop Suite 946\nNorth Tamaraton, MD 62868', 1, 1), (4, 3, 4, 'Lydia Carter', 'zmartin@example.com', 23, '37517 Jennifer Greens\nPort Claire, GU 46524', 1, 1), (5, 1, 5, 'Mary Pratt', 'melissa31@example.net', 20, '3244 Hannah Creek Apt. 806\nMelissatown, PW 35099', 1, 1), (6, 1, 6, 'Juan Austin', 'nicholasjennings@example.net', 29, '68494 Melanie Haven\nEast Luis, UT 56973', 1, 1), (7, 5, 7, 'Kevin Mooney', 'llewis@example.net', 24, '36601 Lopez Loaf Apt. 395\nNew Sarahberg, PW 87938', 1, 1), (8, 5, 8, 'Stephanie King', 'fisherjennifer@example.com', 26, '576 Kathleen Fords Suite 442\nMelissaville, ID 30854', 1, 1), (9, 4, 9, 'Holly Dillon', 'brownnathan@example.com', 29, '9621 Danielle Lane\nRodriguezbury, GA 07284', 1, 1), (10, 3, 10, 'Zachary Fry', 'andreaharrison@example.org', 25, '90688 Alejandro Burgs\nBellview, IL 47846', 1, 1), (11, 4, 11, 'Lisa Hernandez', 'jcarrillo@example.net', 25, '318 Aimee Mountain\nPort Laurenfort, ND 04457', 1, 1), (12, 4, 12, 'Rodney Brown', 'jameslane@example.com', 29, '0250 Morris Estates Apt. 580\nGeorgetown, DE 76506', 1, 1), (13, 3, 13, 'Jordan Woods', 'michelleclark@example.com', 27, '9193 Allen Lodge Suite 075\nSouth Emily, GA 26194', 1, 1), (14, 2, 14, 'Elizabeth Smith', 'bennetterica@example.net', 25, '598 Watson Summit Suite 953\nPort Micheleshire, OK 06872', 1, 1), (15, 2, 15, 'Cheryl Brown', 'snydermolly@example.com', 21, '4536 Kelly Dam Suite 918\nJosephside, TN 71986', 1, 1), (16, 5, 16, 'Jeffrey Williams', 'huffrenee@example.org', 18, '8034 Carrillo Crest Apt. 084\nJanestad, GU 89123', 1, 1), (17, 1, 17, 'Jason Moses', 'johnsonjanet@example.net', 27, 'PSC 7439, Box 7977\nAPO AA 05254', 1, 1), (18, 4, 18, 'Nicholas Downs', 'hillkaren@example.com', 27, '72479 Karen Passage\nSouth John, MN 34379', 1, 1), (19, 5, 19, 'Lori Martinez', 'ykemp@example.net', 22, '628 Khan Course Suite 536\nLake Melissa, NY 73317', 1, 1), (20, 4, 20, 'Isaiah Martinez', 'harrisbreanna@example.net', 27, '6957 Nelson Tunnel\nVasquezberg, OK 98513', 1, 1), '...(remaining elements truncated)...']>
+>>>
+

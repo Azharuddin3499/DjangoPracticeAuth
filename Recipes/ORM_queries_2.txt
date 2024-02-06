@@ -1,0 +1,245 @@
+http://Django QuerySet
+=============
+
+D:\study\Django\practiceA>python manage.py shell
+Python 3.12.1 (tags/v3.12.1:2305ca5, Dec  7 2023, 22:03:25) [MSC v.1937 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from Recipes.models import *
+>>> queryset=Student.objects.filter(student_name__startswith='a')
+>>> queryset
+<QuerySet [<Student: Alexander Walker>, <Student: Alison Bennett>, <Student: Amber Zimmerman>, <Student: Amy Bryant>, <Student: Amy Rodriguez>, <Student: Angel Rivera>, <Student: Angela Keller>, <Student: Angela Perry>, <Student: Ashley Butler>, <Student: Ashley Williams>, <Student: Audrey Rush>, <Student: Austin Powell>]>
+>>> queryset=Student.objects.filter(student_name__startswith='n')
+>>> queryset
+<QuerySet [<Student: Nicholas Downs>, <Student: Nicholas Montoya>, <Student: Nicolas Graves>, <Student: Nicole Green>]>
+>>>
+>>>
+>>> queryset=Student.objects.filter(student_email__endswith='.net')
+>>> queryset
+<QuerySet [<Student: Alexander Walker>, <Student: Angel Rivera>, <Student: Angela Keller>, <Student: Ashley Butler>, <Student: Ashley Williams>, <Student: Audrey Rush>, <Student: Austin Powell>, <Student: Brenda Calderon>, <Student: Brittany Robbins>, <Student: Colleen Garcia>, <Student: Daniel Berry>, <Student: Diane Kent>, <Student: Elizabeth Smith>, <Student: Glen Yoder>, <Student: Holly Davis>, <Student: Isaac Miller>, <Student: Isaiah Martinez>, <Student: Jason Moses>, <Student: Jeremiah Bird>, <Student: Joanne Werner>, '...(remaining elements truncated)...']>
+>>>
+>>>
+>>> queryset=Student.objects.filter(student_email__endswith='.gmail')
+>>> queryset
+<QuerySet []>
+>>> queryset=Student.objects.filter(student_email__endswith='.org')
+>>> queryset
+<QuerySet [<Student: Amber Zimmerman>, <Student: Amy Bryant>, <Student: Angela Perry>, <Student: Brian Wallace>, <Student: Christopher Adams>, <Student: Claudia Page>, <Student: Colin Williams>, <Student: Craig Alvarez>, <Student: Darin Jones>, <Student: Elizabeth Serrano>, <Student: Gloria Johnson>, <Student: James Atkinson>, <Student: James Dunn>, <Student: James Jones>, <Student: Jeffrey Kelly>, <Student: Jeffrey Williams>, <Student: Jennifer Hendricks>, <Student: Jennifer Rodriguez>, <Student: Jill Foster>, <Student: John Callahan>, '...(remaining elements truncated)...']>
+>>>
+>>>
+>>> for q in queryset:
+...     print(q.student_email)
+...
+jennifer28@example.org
+sanchezjames@example.org
+yperez@example.org
+dennis09@example.org
+chavezemily@example.org
+brian07@example.org
+riveraanna@example.org
+laurenramirez@example.org
+porterdustin@example.org
+silvadon@example.org
+murphypaul@example.org
+courtneybray@example.org
+wrightmichael@example.org
+timothy62@example.org
+baldwincalvin@example.org
+huffrenee@example.org
+kathleensmith@example.org
+alexbarker@example.org
+yhuerta@example.org
+charles24@example.org
+nichole55@example.org
+jonesashley@example.org
+ramosjohn@example.org
+ncain@example.org
+alfred34@example.org
+matthew18@example.org
+franklinjason@example.org
+pcarroll@example.org
+tina78@example.org
+sonyathompson@example.org
+wilsonkenneth@example.org
+rfuller@example.org
+johnsonjoshua@example.org
+carol56@example.org
+juliadean@example.org
+steven88@example.org
+becky13@example.org
+annettereid@example.org
+eddiejohnson@example.org
+richardsheppard@example.org
+deniseingram@example.org
+andreaharrison@example.org
+>>>
+>>>
+>>>
+>>> queryset=Student.objects.filter(student_name__icontains='ns')
+>>> queryset
+<QuerySet [<Student: Brittany Robbins>, <Student: Danielle Hansen>, <Student: Gloria Johnson>, <Student: James Atkinson>, <Student: Kelly Evans>, <Student: Nicholas Downs>, <Student: Teresa Stevenson>, <Student: Travis Johnson>]>
+>>>
+>>>
+>>>
+>>> queryset=Student.objects.filter(student_address__icontains='robertton')
+>>> queryset
+<QuerySet []>
+>>> queryset=Student.objects.filter(student_address__icontains='Robberton')
+>>> queryset
+<QuerySet []>
+>>> queryset=Student.objects.filter(student_address__icontains='83')
+>>> queryset
+<QuerySet [<Student: Alexander Walker>, <Student: Amy Bryant>, <Student: Angela Keller>, <Student: Audrey Rush>, <Student: Craig Howell>, <Student: Linda Patterson>, <Student: Maxwell Ramos>, <Student: Melissa Castro>, <Student: Michelle Smith>, <Student: Mrs. Selena White>, <Student: Samuel Davidson PhD>, <Student: Wayne Fletcher>]>
+>>>
+>>>
+>>>
+>>> queryset[0].student_id
+<StudentID: STU-0736>
+>>>
+>>>
+>>> queryset[0].id
+77
+>>> queryset[0].pk
+77
+>>>
+>>>
+>>> queryset[0].department
+<Department: Mechanical>
+>>> queryset[0].student_name
+'Alexander Walker'
+>>> queryset[1].student_name
+'Amy Bryant'
+>>> queryset[2].student_name
+'Angela Keller'
+>>>
+>>>
+>>>
+>>> queryset=Student.objects.filter(department__department='civil')
+>>> queryset
+<QuerySet []>
+>>> queryset=Student.objects.filter(department__department__icontains='Civil')
+>>> queryset
+<QuerySet [<Student: Ashley Butler>, <Student: Charlotte Hendricks>, <Student: Christopher Adams>, <Student: Craig Alvarez>, <Student: Daniel Fleming>, <Student: Diane Kent>, <Student: Glen Yoder>, <Student: Gloria Johnson>, <Student: James Dunn>, <Student: Jason Moses>, <Student: Jessica Mitchell>, <Student: Joanne Werner>, <Student: John Woods>, <Student: Juan Austin>, <Student: Katie Hernandez>, <Student: Marcus Hooper>, <Student: Margaret Lopez>, <Student: Mary Pratt>, <Student: Maxwell Ramos>, <Student: Michael Crawford>, '...(remaining elements truncated)...']>
+>>>
+>>>
+>>> queryset.count()
+27
+>>>
+>>>
+>>> queryset=Student.objects.filter(department__department__icontains='Mec')
+>>> queryset
+<QuerySet [<Student: Alexander Walker>, <Student: Amber Zimmerman>, <Student: Bethany Smith>, <Student: Brenda Calderon>, <Student: Cassandra Edwards>, <Student: Colin Williams>, <Student: Colleen Garcia>, <Student: Daniel Berry>, <Student: Doris Edwards>, <Student: Holly Davis>, <Student: James Jones>, <Student: Jennifer Rodriguez>, <Student: Jeremiah Bird>, <Student: Jonathan Roman>, <Student: Jordan Woods>, <Student: Joshua Walker>, <Student: Katherine Delacruz>, <Student: Katie Gonzales>, <Student: Kelly Evans>, <Student: Lydia Carter>, '...(remaining elements truncated)...']>
+>>> queryset.count()
+28
+>>>
+>>>
+>>>
+>>> d=['Civil','Electrical']
+>>> d
+['Civil', 'Electrical']
+>>>
+>>>
+>>> queryset=Student.objects.filter(department__department__in=d)
+>>> queryset
+<QuerySet [<Student: Angel Rivera>, <Student: Angela Keller>, <Student: Angela Perry>, <Student: Ashley Butler>, <Student: Audrey Rush>, <Student: Charlotte Hendricks>, <Student: Christopher Adams>, <Student: Craig Alvarez>, <Student: Daniel Fleming>, <Student: Danielle Hansen>, <Student: Denise Sims>, <Student: Diane Kent>, <Student: Glen Yoder>, <Student: Gloria Johnson>, <Student: Holly Dillon>, <Student: Isaiah Martinez>, <Student: Ivan Allen>, <Student: James Dunn>, <Student: Jason Moses>, <Student: Jeffrey Kelly>, '...(remaining elements truncated)...']>
+>>>
+>>>
+>>> queryset.count()
+65
+>>>
+>>>
+>>>
+>>>
+>>> queryset=Student.objects.exclude(department__department='civil')
+>>> queryset
+<QuerySet [<Student: Alexander Walker>, <Student: Alison Bennett>, <Student: Amber Zimmerman>, <Student: Amy Bryant>, <Student: Amy Rodriguez>, <Student: Angel Rivera>, <Student: Angela Keller>, <Student: Angela Perry>, <Student: Ashley Butler>, <Student: Ashley Williams>, <Student: Audrey Rush>, <Student: Austin Powell>, <Student: Bethany Smith>, <Student: Brandy Watson>, <Student: Brenda Calderon>, <Student: Brian Wallace>, <Student: Brittany Robbins>, <Student: Cassandra Edwards>, <Student: Charlotte Hendricks>, <Student: Cheryl Brown>, '...(remaining elements truncated)...']>
+>>> queryset.count()
+152
+>>> queryset=Student.objects.exclude(department__department='Civil')
+>>> queryset.count()
+125
+>>> queryset=Student.objects.exclude(department__department='cividcdl')
+>>> queryset.count()
+152
+>>>
+>>>
+>>>
+>>> queryset=Student.objects.filter(student_name='Alok')
+>>> queryset.exists()
+False
+>>>
+>>>
+>>> queryset=Student.objects.filter(student_name='A')
+>>> queryset.exists()
+False
+>>>
+>>>
+>>> queryset=Student.objects.filter(student_name__icontains='A')
+>>> queryset.exists()
+True
+>>>
+>>>
+>>> queryset=Student.objects.all()
+>>> queryset[0:50]
+<QuerySet [<Student: Alexander Walker>, <Student: Alison Bennett>, <Student: Amber Zimmerman>, <Student: Amy Bryant>, <Student: Amy Rodriguez>, <Student: Angel Rivera>, <Student: Angela Keller>, <Student: Angela Perry>, <Student: Ashley Butler>, <Student: Ashley Williams>, <Student: Audrey Rush>, <Student: Austin Powell>, <Student: Bethany Smith>, <Student: Brandy Watson>, <Student: Brenda Calderon>, <Student: Brian Wallace>, <Student: Brittany Robbins>, <Student: Cassandra Edwards>, <Student: Charlotte Hendricks>, <Student: Cheryl Brown>, '...(remaining elements truncated)...']>
+>>> queryset.count()
+152
+>>> queryset[0:5]
+<QuerySet [<Student: Alexander Walker>, <Student: Alison Bennett>, <Student: Amber Zimmerman>, <Student: Amy Bryant>, <Student: Amy Rodriguez>]>
+>>>
+>>>
+>>>
+>>> queryset.count()
+152
+>>>
+>>>
+>>> queryset.values()
+<QuerySet [{'id': 77, 'department_id': 3, 'student_id_id': 77, 'student_name': 'Alexander Walker', 'student_email': 'efisher@example.net', 'student_age': 20, 'student_address': '31046 Weber Villages\nAshleyside, PA 83702'}, {'id': 118, 'department_id': 2, 'student_id_id': 118, 'student_name': 'Alison Bennett', 'student_email': 'sanchezholly@example.com', 'student_age': 23, 'student_address': '2449 Chris Via\nLangview, KY 12344'}, {'id': 40, 'department_id': 3, 'student_id_id': 40, 'student_name': 'Amber Zimmerman', 'student_email': 'jennifer28@example.org', 'student_age': 24, 'student_address': '1651 Jon Trace Suite 727\nEthanville, WA 95640'}, {'id': 71, 'department_id': 2, 'student_id_id': 71, 'student_name': 'Amy Bryant', 'student_email': 'sanchezjames@example.org', 'student_age': 30, 'student_address': '534 Williams Courts\nEast Elizabethbury, NY 83495'}, {'id': 24, 'department_id': 5, 'student_id_id': 24, 'student_name': 'Amy Rodriguez', 'student_email': 'sanchezjulian@example.com', 'student_age': 26, 'student_address': '4728 Brady Unions Suite 465\nTaylortown, DC 23947'}, {'id': 69, 'department_id': 4, 'student_id_id': 69, 'student_name': 'Angel Rivera', 'student_email': 'hnelson@example.net', 'student_age': 26, 'student_address': '46760 Kim Light\nTaylortown, WY 03592'}, {'id': 143, 'department_id': 4, 'student_id_id': 143, 'student_name': 'Angela Keller', 'student_email': 'jamiethomas@example.net', 'student_age': 28, 'student_address': '95291 Mendoza Extension\nFrenchberg, WV 33831'}, {'id': 107, 'department_id': 4, 'student_id_id': 107, 'student_name': 'Angela Perry', 'student_email': 'yperez@example.org', 'student_age': 20, 'student_address': '025 Baldwin Pines\nEast Justin, KS 73219'}, {'id': 31, 'department_id': 1, 'student_id_id': 31, 'student_name': 'Ashley Butler', 'student_email': 'whowell@example.net', 'student_age': 28, 'student_address': '3899 Peck Land Apt. 387\nSouth Brandi, NM 71622'}, {'id': 59, 'department_id': 5, 'student_id_id': 59, 'student_name': 'Ashley Williams', 'student_email': 'bradycarter@example.net', 'student_age': 28, 'student_address': '2911 Calderon Springs Suite 358\nHayesshire, CO 69714'}, {'id': 150, 'department_id': 4, 'student_id_id': 150, 'student_name': 'Audrey Rush', 'student_email': 'theresamckenzie@example.net', 'student_age': 24, 'student_address': '93333 Dean Ports Suite 832\nWest Josephchester, MA 00743'}, {'id': 28, 'department_id': 5, 'student_id_id': 28, 'student_name': 'Austin Powell', 'student_email': 'lmarshall@example.net', 'student_age': 19, 'student_address': '86093 Wanda Meadow Suite 966\nLake Natasha, CT 90885'}, {'id': 90, 'department_id': 3, 'student_id_id': 90, 'student_name': 'Bethany Smith', 'student_email': 'david48@example.com', 'student_age': 25, 'student_address': '01692 Walker Ford\nWest Megan, TX 60184'}, {'id': 103, 'department_id': 5, 'student_id_id': 103, 'student_name': 'Brandy Watson', 'student_email': 'michelle53@example.com', 'student_age': 29, 'student_address': '8494 Ramirez Plain\nMichelleland, OR 67324'}, {'id': 27, 'department_id': 3, 'student_id_id': 27, 'student_name': 'Brenda Calderon', 'student_email': 'yolsen@example.net', 'student_age': 19, 'student_address': '733 Ryan Skyway\nSouth Amy, WY 49386'}, {'id': 57, 'department_id': 2, 'student_id_id': 57, 'student_name': 'Brian Wallace', 'student_email': 'dennis09@example.org', 'student_age': 24, 'student_address': '9630 Christian Path Suite 565\nLake Monicabury, MS 03877'}, {'id': 46, 'department_id': 2, 'student_id_id': 46, 'student_name': 'Brittany Robbins', 'student_email': 'cjackson@example.net', 'student_age': 29, 'student_address': '0048 Baker Spur\nEast Michael, IA 02942'}, {'id': 87, 'department_id': 3, 'student_id_id': 87, 'student_name': 'Cassandra Edwards', 'student_email': 'castillotheresa@example.com', 'student_age': 28, 'student_address': '54245 Andrew Loop Suite 106\nOlivialand, OR 72346'}, {'id': 92, 'department_id': 1, 'student_id_id': 92, 'student_name': 'Charlotte Hendricks', 'student_email': 'lphillips@example.com', 'student_age': 21, 'student_address': '588 Emily Pike\nWest Ashley, FM 26956'}, {'id': 15, 'department_id': 2, 'student_id_id': 15, 'student_name': 'Cheryl Brown', 'student_email': 'snydermolly@example.com', 'student_age': 21, 'student_address': '4536 Kelly Dam Suite 918\nJosephside, TN 71986'}, '...(remaining elements truncated)...']>
+>>>
+>>>
+>>>
+>>>
+>>> queryset.values()[0]
+{'id': 77, 'department_id': 3, 'student_id_id': 77, 'student_name': 'Alexander Walker', 'student_email': 'efisher@example.net', 'student_age': 20, 'student_address': '31046 Weber Villages\nAshleyside, PA 83702'}
+>>>
+>>>
+
+
+>>> queryset.values()[0]['student_age']
+20
+>>>
+>>>
+>>> queryset=Student.objects.all().distinct('student_age')
+>>> queryset
+
+    raise NotSupportedError(
+django.db.utils.NotSupportedError: DISTINCT ON fields is not supported by this database backend
+>>>
+>>>
+>>>
+>>>
+>>> queryset=Student.objects.all()
+>>>
+>>> queryset.reverse()
+<QuerySet [<Student: Zachary Fry>, <Student: Wesley Griffin>, <Student: Wendy Chen>, <Student: Wayne Fletcher>, <Student: Walter Hale>, <Student: Valerie Compton>, <Student: Travis Johnson>, <Student: Todd Guzman>, <Student: Tina Dennis>, <Student: Tiffany Adams>, <Student: Thomas Boyer>, <Student: Teresa Stevenson>, <Student: Tammy Warren>, <Student: Tammy Graham>, <Student: Steven Rodriguez>, <Student: Steven Nelson>, <Student: Stephanie King>, <Student: Stephanie Hall>, <Student: Stephanie Foley>, <Student: Stacey Salinas>, '...(remaining elements truncated)...']>
+>>>
+>>>
+>>>
+>>>
+>>> queryset=Student.objects.all()
+>>> queryset
+<QuerySet [<Student: Alexander Walker>, <Student: Alison Bennett>, <Student: Amber Zimmerman>, <Student: Amy Bryant>, <Student: Amy Rodriguez>, <Student: Angel Rivera>, <Student: Angela Keller>, <Student: Angela Perry>, <Student: Ashley Butler>, <Student: Ashley Williams>, <Student: Audrey Rush>, <Student: Austin Powell>, <Student: Bethany Smith>, <Student: Brandy Watson>, <Student: Brenda Calderon>, <Student: Brian Wallace>, <Student: Brittany Robbins>, <Student: Cassandra Edwards>, <Student: Charlotte Hendricks>, <Student: Cheryl Brown>, '...(remaining elements truncated)...']>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>> queryset=Student.objects.values_list('id' , 'student_name')
+>>> queryset
+<QuerySet [(77, 'Alexander Walker'), (118, 'Alison Bennett'), (40, 'Amber Zimmerman'), (71, 'Amy Bryant'), (24, 'Amy Rodriguez'), (69, 'Angel Rivera'), (143, 'Angela Keller'), (107, 'Angela Perry'), (31, 'Ashley Butler'), (59, 'Ashley Williams'), (150, 'Audrey Rush'), (28, 'Austin Powell'), (90, 'Bethany Smith'), (103, 'Brandy Watson'), (27, 'Brenda Calderon'), (57, 'Brian Wallace'), (46, 'Brittany Robbins'), (87, 'Cassandra Edwards'), (92, 'Charlotte Hendricks'), (15, 'Cheryl Brown'), '...(remaining elements truncated)...']>
+>>>
+>>>
+>>>
+>>> queryset=Student.objects.get(id=120)
+>>> queryset
+<Student: Julia Thompson>

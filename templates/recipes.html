@@ -1,0 +1,58 @@
+{%extends  'base.html'%}
+{%block start %} 
+
+<h1 style="background-color: aqua;">Loggedin User:{{request.user}} <br>UserName: {{request.user.first_name}} </h1>
+<a href="/logout_page/">Logout</a>
+<div class="container">
+    <form action="" method="post" enctype="multipart/form-data">
+        {%csrf_token%}
+        <div class="mb-3">
+            <label for="" >Recipe Name</label><br>
+            <input type="text" name="r_name">
+        </div>
+        <div class="mb-3">
+            <label for="" >Description</label><br>
+            <textarea type="text" style="block-size: 150px;" name="r_description" ></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="" >Recipe Name</label><br>
+            <input type="file" name="r_img"/>
+        </div>
+        <button type="submit">Publish</button>
+    </form>
+
+<div>
+    <form action="">
+        <input type="text" name="search" placeholder="Search recipe">
+        <button type="submit">Search</button>    
+    </form>
+</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="padding-right: 30px;">No</th>
+                <th style="padding-right: 30px;">Name</th>
+                <th style="padding-right: 30px;">Description</th>
+                <th style="padding-right: 30px;">Image</th>
+                <th style="padding-right: 30px;">Action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {%for i in queryset%}
+            <tr>
+                <td style="padding-right: 30px;">{{forloop.counter}}</td>
+                <td style="padding-right: 30px;">{{i.r_name}}</td>
+                <td style="padding-right: 30px;">{{i.r_description}}</td>
+                <td style="padding-right: 30px;"><img style="height: 100px;" src="/media/{{i.r_img}}"></td>
+                <td style="padding-right: 30px;">
+                    <a href="/delete-recipe/{{i.id}}">Delete</a>
+                    <a href="/update-recipe/{{i.id}}">Update</a>
+                </td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+{%endblock%}

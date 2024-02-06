@@ -1,0 +1,46 @@
+
+D:\study\Django\practiceA>python manage.py shell
+Python 3.12.1 (tags/v3.12.1:2305ca5, Dec  7 2023, 22:03:25) [MSC v.1937 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from Recipes.models import *
+>>> vege = MyRecipes.objects.all()
+>>> vege
+<QuerySet [<MyRecipes: MyRecipes object (26)>, <MyRecipes: MyRecipes object (27)>, <MyRecipes: MyRecipes object (28)>]>
+
+>>> import random
+>>> for v in vege:
+...     v.r_view_counter=random.randint(10,100)
+...     v.save()
+...
+>>> vege = MyRecipes.objects.all()
+>>> vege
+<QuerySet [<MyRecipes: MyRecipes object (26)>, <MyRecipes: MyRecipes object (27)>, <MyRecipes: MyRecipes object (28)>]>
+>>> vege[0].r_view_counter
+58
+>>> vege[1].r_view_counter
+29
+>>> vege = MyRecipes.objects.all().order_by('-r_view_counter')
+>>> vege
+<QuerySet [<MyRecipes: MyRecipes object (28)>, <MyRecipes: MyRecipes object (26)>, <MyRecipes: MyRecipes object (27)>]>
+>>> vege
+<QuerySet [<MyRecipes: MyRecipes object (28)>, <MyRecipes: MyRecipes object (26)>, <MyRecipes: MyRecipes object (27)>]>
+>>> vege[0].r_view_counter
+71
+>>> vege[1].r_view_counter
+58
+>>> vege[2].r_view_counter
+29
+>>> vege = MyRecipes.objects.all().order_by('-r_view_counter')[0:1]
+>>> vege
+<QuerySet [<MyRecipes: MyRecipes object (28)>]>
+>>> MyRecipes.objects.filter(r_view_counter=55)
+<QuerySet []>
+>>> MyRecipes.objects.filter(r_view_counter__gte=55)
+<QuerySet [<MyRecipes: MyRecipes object (26)>, <MyRecipes: MyRecipes object (28)>]>
+>>> MyRecipes.objects.filter(r_view_counter__gte=55)[0].r_view_counter
+58
+>>> MyRecipes.objects.filter(r_view_counter__gte=55)[1].r_view_counter
+71
+>>> MyRecipes.objects.filter(r_view_counter__lte=55)[0].r_view_counter
+29

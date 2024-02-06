@@ -1,0 +1,35 @@
+{%include 'base.html'%}
+{%block start%}
+<div>
+    <h1>Register</h1>
+    <form action="" method="post">
+        {%csrf_token%}
+                
+        {%if messages%}
+        {{messages.tags}}
+        <div role="alert">
+            {%for i in messages%}
+            {{i}}
+            {%endfor%}
+        </div>
+{%endif%}
+
+
+        <label for="">First Name</label>
+        <input type="text" name="first_name"><br>
+        
+        <label for="">Last Name</label>
+        <input type="text" name="last_name"><br>
+        
+        <label for="">User Name</label>
+        <input type="text" name="username"><br>
+
+        <label for="">Password</label>
+        <input type="password" name="password"><br>
+
+        <button type="submit">Register</button>
+
+        <p>Already have accout. <a href="/login/">Login</a>
+    </form>
+</div>
+{%endblock%}
